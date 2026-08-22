@@ -10,6 +10,7 @@ const db = low(new FileSync(path.join(__dirname, 'dayflow-db.json')));
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'dayflow-development-secret';
 app.use(express.json());
+app.use((req, res, next) => { res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*'); res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization'); res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, OPTIONS'); if (req.method === 'OPTIONS') return res.sendStatus(204); next(); });
 app.use(express.static(__dirname));
 
 db.defaults({ users: [], attendance: [], leaveRequests: [], payroll: [], performance: [], auditEvents: [] }).write();

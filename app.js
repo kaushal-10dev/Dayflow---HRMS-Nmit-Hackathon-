@@ -1,5 +1,6 @@
-const API = '/api';
-const canUseApi = location.protocol !== 'file:';
+const localApi = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+const API = localApi && location.port !== '3000' ? 'http://localhost:3000/api' : '/api';
+const canUseApi = location.protocol !== 'file:' || localApi;
 let currentUser = null;
 let authMode = 'signin';
 const authScreen = document.querySelector('#auth-screen');
@@ -25,13 +26,14 @@ async function api(path, options = {}) {
   const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
   const token = localStorage.getItem('dayflow-token');
   if (token) headers.Authorization = `Bearer ${token}`;
-  const response = await fetch(`${API}${path}`, { ...options, headers });
+  let response;
+  try { response = await fetch(`${API}${path}`, { ...options, headers }); } catch { throw new Error('Cannot connect to Dayflow server. Run npm start and open http://localhost:3000.'); }
   const body = await response.text();
   let data = {};
   if (body.trim()) {
     try { data = JSON.parse(body); } catch { data = { error: 'The server returned an invalid response. Please try again.' }; }
   }
-  if (!response.ok) { if (response.status === 401) { localStorage.removeItem('dayflow-token'); signOut(false); } throw new Error(data.error || `Request failed (${response.status})`); }
+  if (!response.ok) { if (response.status === 401) { localStorage.removeItem('dayflow-token'); signOut(false); } if (response.status === 405) throw new Error('This page is using a static server. Open http://localhost:3000 instead.'); throw new Error(data.error || `Request failed (${response.status})`); }
   if (!body.trim()) throw new Error('The server returned an empty response. Please try again.');
   return data;
 }
