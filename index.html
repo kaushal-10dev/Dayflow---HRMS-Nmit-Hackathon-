@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f7f2">
+  <title>Dayflow | HRMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#dashboard" aria-label="Dayflow home"><span class="brand-mark">d</span><span>dayflow</span></a>
+      <div class="workspace-label">WORKSPACE</div>
+      <nav class="nav-list" aria-label="Primary navigation">
+        <a class="nav-item active" href="#dashboard" data-view="dashboard"><span class="nav-icon">⌂</span>Overview</a>
+        <a class="nav-item" href="#attendance" data-view="attendance"><span class="nav-icon">◷</span>Attendance</a>
+        <a class="nav-item" href="#leave" data-view="leave"><span class="nav-icon">↗</span>Leave requests <span class="nav-count">3</span></a>
+        <a class="nav-item" href="#employees" data-view="employees"><span class="nav-icon">♙</span>People</a>
+        <a class="nav-item" href="#payroll" data-view="payroll"><span class="nav-icon">▤</span>Payroll</a>
+      </nav>
+      <div class="workspace-label settings-label">ACCOUNT</div>
+      <nav class="nav-list">
+        <a class="nav-item" href="#profile" data-view="profile"><span class="nav-icon">◎</span>My profile</a>
+        <a class="nav-item" href="#settings" data-view="settings"><span class="nav-icon">⚙</span>Settings</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="help-box"><span class="help-icon">?</span><div><strong>Need a hand?</strong><small>Visit the help center</small></div></div>
+        <div class="user-mini"><div class="avatar avatar-sage">AS</div><div><strong>Alex Smith</strong><small>Product designer</small></div><span class="more">•••</span></div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar"><button class="mobile-menu" aria-label="Open menu">☰</button><div class="crumb"><span>Workspace</span><b>/</b><strong id="page-title">Overview</strong></div><div class="top-actions"><button class="icon-button" aria-label="Search">⌕</button><button class="icon-button notification" aria-label="Notifications">♧<i></i></button><div class="avatar avatar-sage">AS</div></div></header>
+      <div class="content-wrap">
+        <section id="dashboard-view" class="view active-view">
+          <div class="welcome-row"><div><p class="eyebrow">MONDAY, 21 OCTOBER 2024</p><h1>Good morning, Alex <span class="sun">✳</span></h1><p class="subheading">Here is what is happening across your workspace today.</p></div><button class="primary-button" data-open-modal="leave-modal"><span>＋</span> Request leave</button></div>
+          <div class="stat-grid"><article class="stat-card"><div class="stat-label">PRESENT TODAY <span class="trend up">+8.2%</span></div><strong>42 <small>/ 48 people</small></strong><div class="progress"><span style="width:87.5%"></span></div><p>6 people are out today</p></article><article class="stat-card highlight"><div class="stat-label">LEAVE BALANCE <span class="stat-symbol">◒</span></div><strong>14 <small>days remaining</small></strong><div class="leave-dots"><i></i><i></i><i></i><i></i><i class="empty"></i><i class="empty"></i></div><p>Next reset in 72 days</p></article><article class="stat-card"><div class="stat-label">HOURS THIS WEEK <span class="trend up">On track</span></div><strong>32<span class="decimal">:40</span> <small>/ 40:00 hrs</small></strong><div class="progress coral"><span style="width:81%"></span></div><p>7h 20m left this week</p></article></div>
+          <div class="dashboard-grid"><article class="panel attendance-panel"><div class="panel-heading"><div><p class="eyebrow">YOUR WEEK</p><h2>Attendance</h2></div><button class="text-button" data-view-target="attendance">View details <span>↗</span></button></div><div class="week-chart"><div class="chart-y"><span>8h</span><span>4h</span><span>0h</span></div><div class="bars"><div class="bar-day"><div class="bar-wrap"><i style="height:84%"></i></div><span>Mon</span></div><div class="bar-day"><div class="bar-wrap"><i style="height:91%"></i></div><span>Tue</span></div><div class="bar-day"><div class="bar-wrap"><i style="height:76%"></i></div><span>Wed</span></div><div class="bar-day"><div class="bar-wrap"><i class="today" style="height:45%"></i></div><span class="current">Thu</span></div><div class="bar-day"><div class="bar-wrap"><i class="future" style="height:10%"></i></div><span>Fri</span></div></div></div><div class="attendance-foot"><span><i class="legend-dot"></i> Working hours</span><strong>32h 40m <small>total</small></strong></div></article><article class="panel activity-panel"><div class="panel-heading"><div><p class="eyebrow">UPDATES</p><h2>Recent activity</h2></div><button class="dots-button" aria-label="More activity options">•••</button></div><div class="activity-list"><div class="activity"><div class="activity-icon green">✓</div><div><strong>Leave request approved</strong><p>Your leave for 04 Nov was approved</p><time>2 hours ago</time></div></div><div class="activity"><div class="activity-icon yellow">◷</div><div><strong>Remember to check out</strong><p>You have been working for 7h 12m</p><time>Today, 4:12 PM</time></div></div><div class="activity"><div class="activity-icon blue">♙</div><div><strong>New team member</strong><p>Jamie Lee joined Design</p><time>Yesterday</time></div></div></div></article></div>
+          <div class="section-heading"><div><p class="eyebrow">TEAM SNAPSHOT</p><h2>Who is in today?</h2></div><button class="text-button" data-view-target="employees">See all people <span>↗</span></button></div><div class="people-row"><div class="person"><div class="avatar avatar-rose">JM</div><div><strong>Jordan Miller</strong><span>Design</span></div><b class="status-dot"></b></div><div class="person"><div class="avatar avatar-yellow">RK</div><div><strong>Riya Kapoor</strong><span>Engineering</span></div><b class="status-dot"></b></div><div class="person"><div class="avatar avatar-blue">DL</div><div><strong>Daniel Lee</strong><span>Marketing</span></div><b class="status-dot"></b></div><div class="person away"><div class="avatar avatar-lilac">NS</div><div><strong>Nina Shah</strong><span>On leave</span></div><b class="status-dot"></b></div><div class="person"><div class="avatar avatar-peach">TC</div><div><strong>Tara Collins</strong><span>Finance</span></div><b class="status-dot"></b></div></div>
+        </section>
+        <section id="generic-view" class="view"><div class="generic-header"><p class="eyebrow">DAYFLOW WORKSPACE</p><h1 id="generic-title">Attendance</h1><p class="subheading" id="generic-subtitle">Keep your workday on track.</p></div><div class="panel generic-panel" id="generic-content"></div></section>
+      </div>
+    </main>
+  </div>
+  <div class="modal-backdrop" id="leave-modal" aria-hidden="true"><div class="modal"><button class="modal-close" aria-label="Close">×</button><p class="eyebrow">TIME OFF</p><h2>Request leave</h2><p class="modal-copy">Take the time you need. Your manager will be notified.</p><form id="leave-form"><label>Leave type<select><option>Paid leave</option><option>Sick leave</option><option>Unpaid leave</option></select></label><div class="form-row"><label>From<input type="date" value="2024-11-04"></label><label>To<input type="date" value="2024-11-05"></label></div><label>Note<textarea placeholder="Add a note for your manager..."></textarea></label><button class="primary-button full" type="submit">Send request <span>↗</span></button></form></div></div>
+  <div class="toast" id="toast">Leave request sent for review <span>✓</span></div>
+  <script src="app.js"></script>
+</body>
+</html>
