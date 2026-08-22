@@ -26,8 +26,13 @@ async function api(path, options = {}) {
   const token = localStorage.getItem('dayflow-token');
   if (token) headers.Authorization = `Bearer ${token}`;
   const response = await fetch(`${API}${path}`, { ...options, headers });
-  const data = await response.json();
-  if (!response.ok) { if (response.status === 401) { localStorage.removeItem('dayflow-token'); signOut(false); } throw new Error(data.error || 'Request failed'); }
+  const body = await response.text();
+  let data = {};
+  if (body.trim()) {
+    try { data = JSON.parse(body); } catch { data = { error: 'The server returned an invalid response. Please try again.' }; }
+  }
+  if (!response.ok) { if (response.status === 401) { localStorage.removeItem('dayflow-token'); signOut(false); } throw new Error(data.error || `Request failed (${response.status})`); }
+  if (!body.trim()) throw new Error('The server returned an empty response. Please try again.');
   return data;
 }
 function setAuthenticated(user) {
