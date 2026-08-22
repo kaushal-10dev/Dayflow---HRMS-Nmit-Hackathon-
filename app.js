@@ -41,6 +41,8 @@ function setAuthenticated(user) {
   currentUser = user;
   authScreen.style.display = 'none';
   appShell.classList.add('authenticated');
+  const greetingName = document.querySelector('#greeting-name');
+  if (greetingName) greetingName.textContent = user.name.split(' ')[0];
   const avatar = document.querySelector('#top-avatar');
   if (avatar) avatar.textContent = user.name.split(' ').map(part => part[0]).join('');
   const sidebarAvatar = document.querySelector('.user-mini .avatar');
@@ -87,7 +89,8 @@ async function renderView(name) {
       const employees = await api('/admin/employees');
       genericContent.innerHTML = table(employees.map(user => `<tr><td>${user.name}</td><td>${user.department}</td><td>${user.jobTitle}</td><td>${user.role}</td><td><button class="text-button" data-view-target="performance">View progress</button></td></tr>`).join(''), ['Employee', 'Department', 'Role', 'Access', 'Performance']);
     } else {
-      genericContent.innerHTML = '<div class="panel-heading"><h2>Workspace preferences</h2></div><p class="subheading">Email notifications and weekly summaries are enabled for this workspace.</p>';
+      const user = await api('/me');
+      genericContent.innerHTML = `<div class="settings-grid"><section><div class="panel-heading"><div><p class="eyebrow">ACCOUNT DETAILS</p><h2>Edit profile</h2></div></div><form id="settings-form" class="settings-form"><label>Full name<input value="${user.name}" disabled></label><label>Email address<input value="${user.email}" disabled></label><label>Phone<input name="phone" value="${user.phone || ''}" placeholder="Add your phone number"></label><label>Location<input name="address" value="${user.address || ''}" placeholder="Add your location"></label><button class="primary-button" type="submit">Save profile <span>↗</span></button><p class="form-message" id="settings-message" role="status"></p></form></section><section class="settings-leave"><div class="panel-heading"><div><p class="eyebrow">TIME OFF</p><h2>Need time away?</h2></div></div><p class="subheading">Send a leave request to your manager for review.</p><button class="primary-button" data-open-modal="leave-modal"><span>＋</span> Request leave</button></section></div>`;
     }
   } catch (error) { genericContent.innerHTML = `<p class="subheading">${error.message}</p>`; }
 }
@@ -107,6 +110,18 @@ document.addEventListener('click', event => {
 });
 async function updateLeave(id, status) { try { await api(`/admin/leaves/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) }); showToast(`Leave request ${status.toLowerCase()}`); showView('leave'); } catch (error) { showToast(error.message); } }
 document.addEventListener('submit', async event => {
+  if (event.target.id === 'settings-form') {
+    event.preventDefault();
+    const form = new FormData(event.target);
+    const message = document.querySelector('#settings-message');
+    try {
+      const user = await api('/me', { method: 'PATCH', body: JSON.stringify({ phone: form.get('phone'), address: form.get('address') }) });
+      setAuthenticated(user);
+      message.textContent = 'Profile saved.';
+      showToast('Profile updated successfully');
+    } catch (error) { message.textContent = error.message; }
+    return;
+  }
   if (event.target.id !== 'leave-form') return;
   event.preventDefault(); const form = new FormData(event.target);
   if (!canUseApi) { closeModal(); showToast('Start the server to save requests'); return; }
