@@ -42,6 +42,8 @@ async function api(path, options = {}) {
 }
 function setAuthenticated(user) {
   currentUser = user;
+  const welcomeName = document.querySelector('#welcome-name');
+  if (welcomeName) welcomeName.textContent = user.name.split(' ')[0];
   authScreen.style.display = 'none';
   appShell.classList.add('authenticated');
   const avatar = document.querySelector('#top-avatar');
