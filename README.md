@@ -11,7 +11,7 @@ npm install
 npm start
 ```
 
-Start a local MongoDB service first, then open `http://localhost:3000`. The server connects to `mongodb://127.0.0.1:27017` and uses the `dayflow_hrms` database by default. Set `MONGO_URI` or `MONGO_DB_NAME` to override these values. If MongoDB is empty, existing `dayflow-db.json` data is imported automatically on the first startup.
+Open `http://localhost:3000` after starting the app. Data is stored in `dayflow-db.json`, so no MongoDB installation is required. Signups, profile edits, attendance, leave, payroll, performance, and activity history survive restarts.
 
 - Employee: `alex.smith@dayflow.co` / `dayflow123`
 - Employee: `priya.nair@dayflow.co` / `employee123` (`DF-3001`)
@@ -20,7 +20,7 @@ Start a local MongoDB service first, then open `http://localhost:3000`. The serv
 - Manager: `jordan.miller@dayflow.co` / `manager123`
 - HR: `maya.chen@dayflow.co` / `admin123`
 
-The API covers sign up/sign in with JWT sessions, employee-only public registration, employee profiles, attendance check-in/check-out, leave creation and approval, read-only employee payroll with HR updates, manager team scoping, performance progress, work-commitment status, and audit events. Data is stored in MongoDB collections, so signups, approvals, profile updates, and other mutations survive server restarts. The responsive dashboard includes the authentication gate, employee portfolio, manager/HR approval queue, and performance view. Directly opening [index.html](index.html) still works as a static visual preview.
+The API covers sign up/sign in with JWT sessions, employee profiles, attendance check-in/check-out, leave creation and approval, payroll updates, manager team scoping, performance progress, work-commitment status, notifications, and audit events. The responsive dashboard includes the authentication gate, employee portfolio, manager/HR approval queue, editable settings, theme toggle, and portfolio assistant. Directly opening [index.html](index.html) still works as a static visual preview.
 
 The authenticated portfolio assistant answers questions about the signed-in employee's own attendance, leave, payroll, profile, goals, and commitment status. The Light/Dark theme toggle is saved in the browser and restored on the next visit.
 

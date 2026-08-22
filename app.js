@@ -115,6 +115,7 @@ async function renderView(name) {
     } else {
       const user = await api('/me');
       genericContent.innerHTML = `<div class="settings-grid"><section><div class="panel-heading"><div><p class="eyebrow">ACCOUNT DETAILS</p><h2>Edit profile</h2></div></div><form id="settings-form" class="settings-form"><label>Full name<input value="${user.name}" disabled></label><label>Email address<input value="${user.email}" disabled></label><label>Phone<input name="phone" value="${user.phone || ''}" placeholder="Add your phone number"></label><label>Location<input name="address" value="${user.address || ''}" placeholder="Add your location"></label><button class="primary-button" type="submit">Save profile <span>↗</span></button><p class="form-message" id="settings-message" role="status"></p></form></section><section class="settings-leave"><div class="panel-heading"><div><p class="eyebrow">TIME OFF</p><h2>Need time away?</h2></div></div><p class="subheading">Send a leave request to your manager for review.</p><button class="primary-button" data-open-modal="leave-modal"><span>＋</span> Request leave</button></section></div>`;
+      genericContent.insertAdjacentHTML('beforeend', '<div class="settings-preferences panel"><p class="eyebrow">PREFERENCES</p><button class="secondary-button" type="button" id="settings-theme-button">Toggle light / dark mode</button><button class="secondary-button" type="button" id="settings-notifications-button">View notification history</button></div>');
     }
   } catch (error) { genericContent.innerHTML = `<p class="subheading">${error.message}</p>`; }
 }
@@ -136,6 +137,8 @@ document.addEventListener('click', event => {
   if (event.target.closest('[data-profile-edit]')) { const form = document.querySelector('#profile-form'); if (form) form.hidden = !form.hidden; }
   if (event.target.closest('#notification-button')) loadNotifications();
   if (event.target.closest('#theme-button')) setTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark');
+  if (event.target.closest('#settings-theme-button')) setTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark');
+  if (event.target.closest('#settings-notifications-button')) loadNotifications();
   if (event.target.closest('#assistant-launcher')) { assistantPanel.hidden = false; assistantPanel.classList.add('open'); assistantPanel.setAttribute('aria-hidden', 'false'); }
   if (event.target.closest('#assistant-close')) { assistantPanel.classList.remove('open'); assistantPanel.setAttribute('aria-hidden', 'true'); }
   if (event.target.closest('#search-button')) { const query = prompt('Search people or open a view'); if (query) { const target = query.toLowerCase().includes('leave') ? 'leave' : query.toLowerCase().includes('attendance') ? 'attendance' : query.toLowerCase().includes('payroll') ? 'payroll' : query.toLowerCase().includes('performance') ? 'performance' : 'employees'; showView(target); } }
@@ -149,7 +152,7 @@ async function updateLeave(id, status) { try { await api(`/admin/leaves/${id}`, 
 async function updatePayroll(id, name, currentSalary) { const grossPay = prompt(`Monthly gross pay for ${name}`, currentSalary); if (grossPay === null) return; const deductions = prompt(`Monthly deductions for ${name}`, '0'); if (deductions === null) return; try { await api(`/admin/employees/${id}/payroll`, { method: 'PATCH', body: JSON.stringify({ grossPay, deductions }) }); showToast('Payroll updated'); } catch (error) { showToast(error.message); } }
 async function updatePerformance(id, name) { const goal = prompt(`Current goal for ${name}`); if (goal === null) return; const progress = prompt('Progress percentage (0-100)', '0'); if (progress === null) return; const feedback = prompt('Manager feedback', ''); if (feedback === null) return; try { await api(`/admin/employees/${id}/performance`, { method: 'PATCH', body: JSON.stringify({ goal, progress, feedback, commitmentStatus: 'High', reviewStatus: 'On track' }) }); showToast('Performance review saved'); } catch (error) { showToast(error.message); } }
 async function updateAttendance(action) { try { await api(`/attendance/${action}`, { method: action === 'check-in' ? 'POST' : 'PATCH', body: JSON.stringify({ workDate: today() }) }); showToast(action === 'check-in' ? 'Check-in recorded' : 'Check-out recorded'); showView('attendance'); } catch (error) { showToast(error.message); } }
-async function loadNotifications() { try { const notifications = await api('/notifications'); showToast(notifications.length ? notifications.map(item => item.title).join(' · ') : 'No new notifications'); } catch (error) { showToast(error.message); } }
+async function loadNotifications() { try { const notifications = await api('/notifications'); let history = document.querySelector('.notification-history'); if (!history) { history = document.createElement('aside'); history.className = 'notification-history'; document.body.appendChild(history); } history.innerHTML = `<h3>Notification history</h3>${notifications.length ? notifications.map(item => `<p><strong>${item.title}</strong><br>${item.message}</p>`).join('') : '<p>No notifications yet.</p>'}`; } catch (error) { showToast(error.message); } }
 document.addEventListener('submit', async event => {
   if (event.target.id === 'settings-form') {
     event.preventDefault();
@@ -174,7 +177,7 @@ document.addEventListener('submit', async event => {
   try { await api('/me', { method: 'PATCH', body: JSON.stringify({ phone: form.get('phone'), address: form.get('address') }) }); showToast('Profile changes saved'); showView('profile'); } catch (error) { showToast(error.message); }
 });
 async function start() {
-  if (!canUseApi) { setAuthenticated({ name: 'Preview user', role: 'employee' }); showView(location.hash.slice(1) || 'dashboard'); return; }
+  if (!canUseApi) { authError.textContent = 'Open the app through http://localhost:3000 and sign in to continue.'; return; }
   const token = localStorage.getItem('dayflow-token');
   if (!token) return;
   try { setAuthenticated(await api('/me')); showView(location.hash.slice(1) || 'dashboard'); } catch { signOut(false); }
