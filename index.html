@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f6f7f2">
+  <meta name="theme-color" content="#f6f7f2"> 
   <title>Dayflow | HRMS</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,6 +11,13 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <section class="auth-screen" id="auth-screen">
+    <div class="auth-brand"><span class="brand-mark">d</span><span>dayflow</span></div>
+    <div class="auth-layout">
+      <div class="auth-intro"><p class="eyebrow">PEOPLE OPERATIONS, IN SYNC</p><h1>Every workday,<br><em>perfectly aligned.</em></h1><p>One calm place for people, progress, and the work that moves your team forward.</p><div class="auth-note"><span>✦</span><div><strong>Secure by design</strong><small>Role-based access keeps every portfolio private.</small></div></div></div>
+      <div class="auth-card"><div class="auth-tabs"><button class="auth-tab active" data-auth-mode="signin">Sign in</button><button class="auth-tab" data-auth-mode="signup">Create account</button></div><div class="auth-heading"><p class="eyebrow" id="auth-eyebrow">WELCOME BACK</p><h2 id="auth-title">Sign in to Dayflow</h2><p id="auth-copy">Access your workday in one clear view.</p></div><form id="auth-form"><div class="auth-signup-only"><label>Full name<input name="name" autocomplete="name" placeholder="Alex Smith"></label><label>Employee ID<input name="employeeId" placeholder="DF-2048"></label><label>Department<input name="department" placeholder="Design"></label></div><label>Email address<input name="email" type="email" autocomplete="email" placeholder="you@company.com" required></label><label>Password<input name="password" type="password" autocomplete="current-password" placeholder="8 characters minimum" minlength="8" required></label><p class="auth-error" id="auth-error" role="alert"></p><button class="primary-button full" type="submit" id="auth-submit">Sign in <span>↗</span></button></form><div class="demo-hint">Demo access: employee, manager, or HR credentials are listed in the project README.</div></div>
+    </div>
+  </section>
   <div class="app-shell">
     <aside class="sidebar">
       <a class="brand" href="#dashboard" aria-label="Dayflow home"><span class="brand-mark">d</span><span>dayflow</span></a>
@@ -19,8 +26,9 @@
         <a class="nav-item active" href="#dashboard" data-view="dashboard"><span class="nav-icon">⌂</span>Overview</a>
         <a class="nav-item" href="#attendance" data-view="attendance"><span class="nav-icon">◷</span>Attendance</a>
         <a class="nav-item" href="#leave" data-view="leave"><span class="nav-icon">↗</span>Leave requests <span class="nav-count">3</span></a>
-        <a class="nav-item" href="#employees" data-view="employees"><span class="nav-icon">♙</span>People</a>
+        <a class="nav-item" href="#employees" data-view="employees" data-management-only><span class="nav-icon">♙</span>People</a>
         <a class="nav-item" href="#payroll" data-view="payroll"><span class="nav-icon">▤</span>Payroll</a>
+        <a class="nav-item" href="#performance" data-view="performance"><span class="nav-icon">↗</span>Performance</a>
       </nav>
       <div class="workspace-label settings-label">ACCOUNT</div>
       <nav class="nav-list">
@@ -34,7 +42,7 @@
     </aside>
 
     <main class="main-content">
-      <header class="topbar"><button class="mobile-menu" aria-label="Open menu">☰</button><div class="crumb"><span>Workspace</span><b>/</b><strong id="page-title">Overview</strong></div><div class="top-actions"><button class="icon-button" aria-label="Search">⌕</button><button class="icon-button notification" aria-label="Notifications">♧<i></i></button><div class="avatar avatar-sage">AS</div></div></header>
+      <header class="topbar"><button class="mobile-menu" aria-label="Open menu">☰</button><div class="crumb"><span>Workspace</span><b>/</b><strong id="page-title">Overview</strong></div><div class="top-actions"><button class="icon-button" aria-label="Search">⌕</button><button class="icon-button notification" aria-label="Notifications">♧<i></i></button><div class="avatar avatar-sage" id="top-avatar">AS</div><button class="logout-button" id="logout-button">Log out</button></div></header>
       <div class="content-wrap">
         <section id="dashboard-view" class="view active-view">
           <div class="welcome-row"><div><p class="eyebrow">MONDAY, 21 OCTOBER 2024</p><h1>Good morning, Alex <span class="sun">✳</span></h1><p class="subheading">Here is what is happening across your workspace today.</p></div><button class="primary-button" data-open-modal="leave-modal"><span>＋</span> Request leave</button></div>
