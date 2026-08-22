@@ -46,7 +46,7 @@
       </div>
     </main>
   </div>
-  <div class="modal-backdrop" id="leave-modal" aria-hidden="true"><div class="modal"><button class="modal-close" aria-label="Close">×</button><p class="eyebrow">TIME OFF</p><h2>Request leave</h2><p class="modal-copy">Take the time you need. Your manager will be notified.</p><form id="leave-form"><label>Leave type<select><option>Paid leave</option><option>Sick leave</option><option>Unpaid leave</option></select></label><div class="form-row"><label>From<input type="date" value="2024-11-04"></label><label>To<input type="date" value="2024-11-05"></label></div><label>Note<textarea placeholder="Add a note for your manager..."></textarea></label><button class="primary-button full" type="submit">Send request <span>↗</span></button></form></div></div>
+  <div class="modal-backdrop" id="leave-modal" aria-hidden="true"><div class="modal"><button class="modal-close" aria-label="Close">×</button><p class="eyebrow">TIME OFF</p><h2>Request leave</h2><p class="modal-copy">Take the time you need. Your manager will be notified.</p><form id="leave-form"><label>Leave type<select name="type"><option>Paid leave</option><option>Sick leave</option><option>Unpaid leave</option></select></label><div class="form-row"><label>From<input name="startDate" type="date" value="2024-11-04" required></label><label>To<input name="endDate" type="date" value="2024-11-05" required></label></div><label>Note<textarea name="remarks" placeholder="Add a note for your manager..."></textarea></label><button class="primary-button full" type="submit">Send request <span>↗</span></button></form></div></div>
   <div class="toast" id="toast">Leave request sent for review <span>✓</span></div>
   <script src="app.js"></script>
 </body>
